@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/user")
 @RestController
@@ -28,7 +29,7 @@ public class UserInfoRestController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping(value = "/sign-up", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponseMessage> create(@RequestBody UserInfoDto userInfoDto) {
         ResponseEntity<ApiResponseMessage> entity = null;
 
@@ -52,8 +53,41 @@ public class UserInfoRestController {
         return entity;
     }
 
-    @GetMapping(value = "/hello")
-    public ResponseEntity<String> hello() {
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponseMessage> login(@RequestBody UserInfoDto userInfoDto) {
+        ResponseEntity<ApiResponseMessage> entity = null;
+        ApiResponseMessage apiResponseMessage = null;
+
+        try {
+            UserInfo param = modelMapper.map(userInfoDto, UserInfo.class);
+
+            UserInfo findUserInfo = userInfoService.findByEmail(param.getEmail());
+
+            if (param.getPassword() == findUserInfo.getPassword()) {
+                apiResponseMessage = ApiResponseMessage.builder()
+                        .status(StatusEnum.OK).message("성공 코드").data(findUserInfo)
+                        .build();
+            } else {
+                apiResponseMessage = ApiResponseMessage.builder()
+                        .status(StatusEnum.ALERT).message("계정 정보가 일치하지 않습니다.")
+                        .build();
+            }
+
+            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.OK);
+        } catch (NullPointerException ne) {
+            apiResponseMessage = ApiResponseMessage.builder()
+                    .status(StatusEnum.ALERT).message("계정 정보가 일치하지 않습니다.")
+                    .build();
+            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            apiResponseMessage = ApiResponseMessage.builder()
+                    .status(StatusEnum.INTERNAL_SERER_ERROR).message("에러코드")
+                    .build();
+            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+
+            e.printStackTrace();
+        }
+
+        return entity;
     }
 }

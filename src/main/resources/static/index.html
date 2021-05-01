@@ -65,8 +65,8 @@
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <a class="btn btn-outline-primary mr-sm-2" href="#">Sign In</a>
-        <a class="btn btn-outline-primary mr-sm-2" href="singup.html">Sign Up</a>
+        <a class="btn btn-primary mr-sm-2" href="signin.html">Sign In</a>
+        <a class="btn btn-primary mr-sm-2" href="signup.html">Sign Up</a>
     </div>
 </nav>
 
@@ -75,6 +75,57 @@
     <div class="starter-template">
         <h1>Bootstrap starter template</h1>
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+
+        <br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>날짜</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>165</td>
+                <td>테스트 제목</td>
+                <td>테스트 작성자</td>
+                <td>2021.05.01</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>200</td>
+                <td>테스트 제목2</td>
+                <td>테스트 작성자2</td>
+                <td>2021.05.01</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>220</td>
+                <td>테스트 제목3</td>
+                <td>테스트 작성자3</td>
+                <td>2021.05.01</td>
+                <td>0</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr/>
+        <div class="row justify-content-end">
+            <button type="button" class="btn btn-outline-primary">글쓰기</button>
+        </div>
+
+        <div class="text-center">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </div>
     </div>
 
 </main><!-- /.container -->

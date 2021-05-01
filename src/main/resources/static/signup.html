@@ -20,6 +20,8 @@
             integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
             crossorigin="anonymous"></script>
 
+    <title>회원가입</title>
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -39,7 +41,7 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
+    <link href="sign.css" rel="stylesheet">
 </head>
 <body class="text-center">
 
@@ -86,7 +88,7 @@
         let form = $("#userForm").serializeObject();
 
         $.ajax({
-            url: "/user/sign-up",
+            url: "/user",
             type: "POST",
             data: JSON.stringify(form), // requestBody는 json 형식으로 보내줌
             contentType: "application/json", // requestBody를 위해 있어야함
@@ -96,8 +98,8 @@
                     alert("계정 생성에 성공하였습니다. 메인페이지로 이동합니다.");
                     location.href = "/";
                 }
-            }, error: function (e) {
-                alert(e);
+            }, error: function (request,status,error) {
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
     });
