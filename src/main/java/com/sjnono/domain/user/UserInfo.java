@@ -1,5 +1,6 @@
-package com.sjnono.bbs.entity;
+package com.sjnono.domain.user;
 
+import com.sjnono.domain.bbs.Board;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,7 +1,6 @@
-package com.sjnono.bbs.entity;
+package com.sjnono.domain.bbs;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.sjnono.domain.user.UserInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,10 +11,9 @@ import javax.persistence.*;
 public class Board {
     @Id @GeneratedValue
     private Long id;
-    private String articleTitle;
-    private String articleDetail;
-    private String articleHits;
-    private String articleRecommend;
+    private String title;
+    private String content;
+    private String hits;
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn()
     private UserInfo userInfo;

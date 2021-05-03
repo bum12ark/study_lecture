@@ -1,4 +1,4 @@
-package com.sjnono.bbs.common;
+package com.sjnono.global.common;
 
 public enum StatusEnum {
     OK(200, "OK"),

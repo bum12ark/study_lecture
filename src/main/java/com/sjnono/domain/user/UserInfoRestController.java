@@ -1,11 +1,8 @@
-package com.sjnono.bbs.controller;
+package com.sjnono.domain.user;
 
 
-import com.sjnono.bbs.UserInfoService;
-import com.sjnono.bbs.common.ApiResponseMessage;
-import com.sjnono.bbs.common.StatusEnum;
-import com.sjnono.bbs.entity.UserInfo;
-import com.sjnono.bbs.model.UserInfoDto;
+import com.sjnono.global.common.ApiResponseMessage;
+import com.sjnono.global.common.StatusEnum;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-import java.util.Optional;
 
 @RequestMapping("/user")
 @RestController

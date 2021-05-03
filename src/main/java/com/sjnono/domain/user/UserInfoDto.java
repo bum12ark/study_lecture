@@ -1,4 +1,4 @@
-package com.sjnono.bbs.model;
+package com.sjnono.domain.user;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
-package com.sjnono.bbs;
+package com.sjnono.domain.user;
 
-import com.sjnono.bbs.entity.UserInfo;
-import com.sjnono.bbs.repository.UserInfoRepository;
+import com.sjnono.domain.user.UserInfo;
+import com.sjnono.domain.user.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

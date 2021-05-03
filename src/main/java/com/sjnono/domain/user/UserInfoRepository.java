@@ -1,6 +1,5 @@
-package com.sjnono.bbs.repository;
+package com.sjnono.domain.user;
 
-import com.sjnono.bbs.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
