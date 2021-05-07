@@ -16,8 +16,6 @@ public class BbsController {
 
     @GetMapping("")
     public String board(Model model) {
-        Page<Board> boardByPageRequest = bbsService.findBoardByPageRequest(0, 10);
-        model.addAttribute("boardByPageRequest", boardByPageRequest);
         return "/bbs/board";
     }
 
