@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+
+<body>
+  <div th:replace="/fragments/navbar.html :: fragment-nav"></div>
+
+  <div class="container mt-3">
+    <div class="py-5 text-center">
+      <h2>Sing in to SonJulNoNo</h2>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <form>
+          <label for="join-email">Email</label>
+          <input type="email" class="form-control mb-3"
+                 id="join-email" placeholder="Email" required>
+          <label for="join-username">Username</label>
+          <input type="text" class="form-control mb-3"
+                 id="join-username" placeholder="Username" required>
+          <label for="join-password">Password</label>
+          <input type="password" class="form-control mb-4"
+                 id="join-password" placeholder="Password" required>
+
+          <button class="btn btn-lg btn-primary btn-block"
+                  id="btn-join">회원가입</button>
+        </form>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+
+  </div>
+  <script type="module" th:src="@{/js/apps.js}"></script>
+</body>
+</html>
