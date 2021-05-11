@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -21,20 +22,6 @@ class BbsServiceTest {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    @Test
-    public void querydsl_Custom설정_기능확인() {
-        // given
-        String title = "QueryDsl_Title";
-        String content = "안녕하세요. 내용입니다.";
-        boardRepository.save(new Board(title, content));
-
-        // when
-        List<Board> result = boardRepository.findByTitle(title);
-
-        // then
-        assertThat(result.get(0).getContent(), is(content));
-
-    }
 
     @Test @Transactional
     public void 양방향매핑_인서트확인() {
@@ -55,5 +42,12 @@ class BbsServiceTest {
         // userInfo.getBoardList().add(board);
 
         boardRepository.save(board);
+    }
+
+    @Test
+    public void querydsl_조인_검색() {
+        List<Board> joinMember = boardRepository.findJoinMember();
+
+        assertThat(joinMember.get(0).getUserInfo().getName(), is(notNullValue()));
     }
 }

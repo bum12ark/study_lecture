@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="fragment-nav">
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="#">손절노노</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <button class="btn btn-outline-success mx-1 my-2 my-sm-0" type="submit">회원가입</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-success mx-1 my-2 my-sm-0" type="submit">로그인</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</div>
+</html>

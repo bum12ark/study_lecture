@@ -57,7 +57,7 @@ public class UserInfoRestController {
 
             UserInfo findUserInfo = userInfoService.findByEmail(param.getEmail());
 
-            if (param.getPassword() == findUserInfo.getPassword()) {
+            if (param.getPassword().equals(findUserInfo.getPassword())) {
                 apiResponseMessage = ApiResponseMessage.builder()
                         .status(StatusEnum.OK).message("성공 코드").data(findUserInfo)
                         .build();

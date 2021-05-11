@@ -1,13 +1,19 @@
 package com.sjnono.domain.bbs;
 
-import com.sjnono.domain.user.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BbsService {
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
+    public BbsService(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+    }
 
+    public List<Board> findJoinMember() {
+        return boardRepository.findJoinMember();
+    }
 }

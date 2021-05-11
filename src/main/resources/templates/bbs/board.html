@@ -88,10 +88,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="board: ${boardByPageRequest.content}">
+            <tr th:each="board: ${boardList}">
                 <td th:text="${board.id}"></td>
                 <td th:text="${board.title}"></td>
-                <td>테스트 작성자</td>
+                <td th:text="${board.userInfo.name}"></td>
                 <!--<td>2021.05.01</td>-->
                 <td th:text="${board.hits}">2</td>
             </tr>
