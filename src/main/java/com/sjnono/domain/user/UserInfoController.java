@@ -10,4 +10,7 @@ public class UserInfoController {
     public String join() {
         return "/user/join";
     }
+
+    @GetMapping("/login")
+    public String login() { return "/user/login"; }
 }

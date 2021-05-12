@@ -7,33 +7,29 @@
 
 <div class="container px-4 py-5">
   <div class="py-2 text-center">
-    <h2>Create your account</h2>
+    <h2>Sign in to SonJulNoNo</h2>
   </div>
   <div class="row align-items-center py-5">
     <div class="col-md-10 mx-auto">
       <form class="needs-validation">
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="join-email" placeholder="name@example.com" required>
-          <label for="join-email">Email address</label>
+          <input type="email" class="form-control" id="login-email" placeholder="name@example.com" required>
+          <label for="login-email">Email address</label>
         </div>
 
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="join-name" placeholder="Name" required>
-          <label for="join-name">Name</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="join-password" placeholder="Password" required>
-          <label for="join-password">Password</label>
+          <input type="password" class="form-control" id="login-password" placeholder="Password" required>
+          <label for="login-password">Password</label>
         </div>
 
         <button class="w-100 btn btn-lg btn-primary"
-                id="join">회원가입
+                id="login">로그인
         </button>
       </form>
     </div>
   </div>
 </div>
+
 <script type="module" th:src="@{/js/apps.js}"></script>
 </body>
 </html>

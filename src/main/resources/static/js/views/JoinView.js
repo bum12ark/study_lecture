@@ -7,9 +7,9 @@ const JoinView = Object.create(View)
 JoinView.setup = function (el) {
     this.init(el)
     this.joinEmail = el.querySelector('#join-email')
-    this.joinUsername = el.querySelector('#join-username')
+    this.joinUsername = el.querySelector('#join-name')
     this.joinPassword = el.querySelector('#join-password')
-    this.submitJoin = el.querySelector('#btn-join')
+    this.submitJoin = el.querySelector('#join')
 
     this.bindEvent()
     return this
@@ -21,7 +21,8 @@ JoinView.bindEvent = function () {
 }
 
 JoinView.onClickJoin = function () {
-    var user = {
+    if (!this.el.checkValidity()) return
+    const user = {
         email: this.joinEmail.value,
         name: this.joinUsername.value,
         password: this.joinPassword.value
