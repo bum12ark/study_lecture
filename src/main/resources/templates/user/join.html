@@ -11,10 +11,11 @@
   </div>
   <div class="row align-items-center py-5">
     <div class="col-md-10 mx-auto">
-      <form class="needs-validation">
-        <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="join-email" placeholder="name@example.com" required>
+      <form class="needs-validation" id="join-form">
+        <div class="input-group form-floating mb-3">
+          <input type="email" class="form-control" id="join-email" placeholder="Email" required>
           <label for="join-email">Email address</label>
+          <button class="btn btn-outline-secondary" type="button" id="check-email">중복확인</button>
         </div>
 
         <div class="form-floating mb-3">
@@ -28,7 +29,7 @@
         </div>
 
         <button class="w-100 btn btn-lg btn-primary"
-                id="join">회원가입
+                id="join" disabled>회원가입
         </button>
       </form>
     </div>
