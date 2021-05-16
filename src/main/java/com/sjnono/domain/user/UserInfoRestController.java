@@ -1,27 +1,19 @@
 package com.sjnono.domain.user;
 
 
-import com.sjnono.global.common.ApiResponseMessage;
-import com.sjnono.global.common.StatusEnum;
-import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.LinkBuilder;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/user")
 @RestController
@@ -78,7 +70,7 @@ public class UserInfoRestController {
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity login(@RequestBody UserInfoDto userInfoDto, Errors errors) {
+    public ResponseEntity login(@RequestBody UserInfoDto userInfoDto, Errors errors) throws Exception {
         userInfoValidator.loginValidator(userInfoDto, errors);
 
         if (errors.hasErrors()) {
@@ -90,20 +82,9 @@ public class UserInfoRestController {
 
         UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
 
-        Optional<UserInfo> optional = this.userInfoService.findByEmail(userInfo.getEmail());
+        userInfoService.login();
 
-        if (optional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // TODO 패스워드 비교 리턴 값 어떻게 할지
-        UserInfo findByUserInfo = optional.get();
-        if (userInfoDto.getPassword().equals(findByUserInfo.getPassword())) {
-            return ResponseEntity.ok(linkTo(this.getClass()).withSelfRel());
-        } else {
-
-        }
-
+        // Optional<UserInfo> optional = this.userInfoService.findByEmail(userInfo.getEmail());
 
         return ResponseEntity.ok(linkTo(this.getClass()).withSelfRel());
     }
