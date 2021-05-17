@@ -1,87 +1,91 @@
 package com.sjnono.domain.user;
 
 
-import com.sjnono.global.common.ApiResponseMessage;
-import com.sjnono.global.common.StatusEnum;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequestMapping("/user")
 @RestController
 public class UserInfoRestController {
     private static Logger logger = LoggerFactory.getLogger(UserInfoRestController.class);
 
-    @Autowired
-    private UserInfoService userInfoService;
+    private final UserInfoService userInfoService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponseMessage> create(@RequestBody UserInfoDto userInfoDto) {
-        ResponseEntity<ApiResponseMessage> entity = null;
+    private final UserInfoValidator userInfoValidator;
 
-        try {
-            UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
-            UserInfo newUserInfo = userInfoService.save(userInfo);
-            ApiResponseMessage apiResponseMessage = ApiResponseMessage.builder()
-                    .status(StatusEnum.OK)
-                    .message("성공 코드")
-                    .data(newUserInfo)
-                    .build();
-            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.OK);
-        } catch (Exception e) {
-            ApiResponseMessage apiResponseMessage = ApiResponseMessage.builder()
-                    .status(StatusEnum.INTERNAL_SERER_ERROR)
-                    .message("에러코드")
-                    .data(null)
-                    .build();
-            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    public UserInfoRestController(UserInfoService userInfoService, ModelMapper modelMapper, UserInfoValidator userInfoValidator) {
+        this.userInfoService = userInfoService;
+        this.modelMapper = modelMapper;
+        this.userInfoValidator = userInfoValidator;
+    }
+
+    @GetMapping(value = "/{email}")
+    public ResponseEntity findUserByEmail(@PathVariable String email) {
+        Optional<UserInfo> optional = this.userInfoService.findByEmail(email);
+        if (optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+
+        EntityModel<UserInfo> model = EntityModel.of(optional.get());
+        model.add(linkTo(UserInfoRestController.class).withSelfRel());
+
+        return ResponseEntity.ok(model);
+    }
+
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity createUser(@RequestBody UserInfoDto userInfoDto, Errors errors) {
+        userInfoValidator.joinValidator(userInfoDto, errors);
+
+        if (errors.hasErrors()) {
+            // http://localhost/user/join
+            EntityModel<Errors> model = EntityModel.of(errors)
+                    .add(linkTo(this.getClass()).slash("join").withSelfRel());
+            return ResponseEntity.badRequest().body(model);
+        }
+
+        UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
+
+        UserInfo createdUserInfo = this.userInfoService.save(userInfo);
+
+        EntityModel<UserInfo> model = EntityModel.of(createdUserInfo);
+        Link link = linkTo(UserInfoRestController.class).withSelfRel();
+        model.add(link);
+
+
+        ResponseEntity<EntityModel<UserInfo>> entity = ResponseEntity.created(link.toUri()).body(model);
         return entity;
     }
 
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponseMessage> login(@RequestBody UserInfoDto userInfoDto) {
-        ResponseEntity<ApiResponseMessage> entity = null;
-        ApiResponseMessage apiResponseMessage = null;
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity login(@RequestBody UserInfoDto userInfoDto, Errors errors) throws Exception {
+        userInfoValidator.loginValidator(userInfoDto, errors);
 
-        try {
-            UserInfo param = modelMapper.map(userInfoDto, UserInfo.class);
-
-            UserInfo findUserInfo = userInfoService.findByEmail(param.getEmail());
-
-            if (param.getPassword().equals(findUserInfo.getPassword())) {
-                apiResponseMessage = ApiResponseMessage.builder()
-                        .status(StatusEnum.OK).message("성공 코드").data(findUserInfo)
-                        .build();
-            } else {
-                apiResponseMessage = ApiResponseMessage.builder()
-                        .status(StatusEnum.ALERT).message("계정 정보가 일치하지 않습니다.")
-                        .build();
-            }
-
-            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.OK);
-        } catch (NullPointerException ne) {
-            apiResponseMessage = ApiResponseMessage.builder()
-                    .status(StatusEnum.ALERT).message("계정 정보가 일치하지 않습니다.")
-                    .build();
-            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
-            apiResponseMessage = ApiResponseMessage.builder()
-                    .status(StatusEnum.INTERNAL_SERER_ERROR).message("에러코드")
-                    .build();
-            entity = new ResponseEntity<>(apiResponseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-
-            e.printStackTrace();
+        if (errors.hasErrors()) {
+            // http://localhost/user/join
+            EntityModel<Errors> model = EntityModel.of(errors)
+                    .add(linkTo(this.getClass()).slash("join").withSelfRel());
+            return ResponseEntity.badRequest().body(model);
         }
 
-        return entity;
+        UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
+
+        userInfoService.login();
+
+        // Optional<UserInfo> optional = this.userInfoService.findByEmail(userInfo.getEmail());
+
+        return ResponseEntity.ok(linkTo(this.getClass()).withSelfRel());
     }
 }
