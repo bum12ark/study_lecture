@@ -26,10 +26,7 @@ class BbsServiceTest {
     @Test @Transactional
     public void 양방향매핑_인서트확인() {
         // given
-        UserInfo userInfo = new UserInfo();
-        userInfo.setEmail("bum12ark@gmail.com");
-        userInfo.setName("박상범");
-        userInfo.setPassword("1234");
+        UserInfo userInfo = new UserInfo("bum12ark@gmail.com", "박상범", "1234");
 
         userInfoRepository.save(userInfo);
 

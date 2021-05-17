@@ -1,4 +1,4 @@
-package com.sjnono.global.common;
+package com.sjnono.global.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -13,4 +13,5 @@ public enum ErrorEnum {
 
     private final HttpStatus httpStatus;
     private final String message;
+
 }

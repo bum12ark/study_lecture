@@ -1,5 +1,7 @@
-package com.sjnono.global.common;
+package com.sjnono.global.error.exception;
 
+import com.sjnono.global.error.CustomException;
+import com.sjnono.global.error.ErrorEnum;
 import org.springframework.hateoas.Link;
 
 public class NotFoundException extends CustomException {

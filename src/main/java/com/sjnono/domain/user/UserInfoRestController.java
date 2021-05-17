@@ -1,11 +1,13 @@
 package com.sjnono.domain.user;
 
 
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -34,36 +36,30 @@ public class UserInfoRestController {
 
     @GetMapping(value = "/{email}")
     public ResponseEntity findUserByEmail(@PathVariable String email) {
-        Optional<UserInfo> optional = this.userInfoService.findByEmail(email);
-        if (optional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        UserInfo findUserInfo = this.userInfoService.findByEmail(email);
 
-        EntityModel<UserInfo> model = EntityModel.of(optional.get());
-        model.add(linkTo(UserInfoRestController.class).withSelfRel());
+        EntityModel<UserInfo> model = EntityModel.of(findUserInfo)
+                .add(linkTo(UserInfoRestController.class).withSelfRel());
 
         return ResponseEntity.ok(model);
     }
 
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity createUser(@RequestBody UserInfoDto userInfoDto, Errors errors) {
-        userInfoValidator.joinValidator(userInfoDto, errors);
+    @PostMapping(value = "")
+    public ResponseEntity createUser(@RequestBody UserInfoDto userInfoDto) {
+        userInfoValidator.joinValidator(userInfoDto);
 
-        if (errors.hasErrors()) {
-            // http://localhost/user/join
-            EntityModel<Errors> model = EntityModel.of(errors)
-                    .add(linkTo(this.getClass()).slash("join").withSelfRel());
-            return ResponseEntity.badRequest().body(model);
-        }
-
-        UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
+        //UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
+        UserInfo userInfo = UserInfo.builder()
+                .email(userInfoDto.getEmail())
+                .name(userInfoDto.getName())
+                .password(userInfoDto.getPassword())
+                .build();
 
         UserInfo createdUserInfo = this.userInfoService.save(userInfo);
 
         EntityModel<UserInfo> model = EntityModel.of(createdUserInfo);
         Link link = linkTo(UserInfoRestController.class).withSelfRel();
         model.add(link);
-
 
         ResponseEntity<EntityModel<UserInfo>> entity = ResponseEntity.created(link.toUri()).body(model);
         return entity;
@@ -85,7 +81,6 @@ public class UserInfoRestController {
         userInfoService.login();
 
         // Optional<UserInfo> optional = this.userInfoService.findByEmail(userInfo.getEmail());
-
         return ResponseEntity.ok(linkTo(this.getClass()).withSelfRel());
     }
 }

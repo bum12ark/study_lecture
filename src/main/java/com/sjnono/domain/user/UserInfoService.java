@@ -1,30 +1,36 @@
 package com.sjnono.domain.user;
 
-import com.sjnono.global.common.CustomException;
-import com.sjnono.global.common.ErrorResponse;
+import com.sjnono.global.error.exception.BadRequestException;
+import com.sjnono.global.error.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Service
 public class UserInfoService {
-    @Autowired
-    private UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userInfoRepository;
+
+    public UserInfoService(UserInfoRepository userInfoRepository) {
+        this.userInfoRepository = userInfoRepository;
+    }
 
     public UserInfo save(UserInfo userInfo) {
-        UserInfo newUserInfo = userInfoRepository.save(userInfo);
-        return newUserInfo;
+        return userInfoRepository.save(userInfo);
     }
 
-    public Optional<UserInfo> findByEmail(String email) {
-        return userInfoRepository.findByEmail(email);
+    public UserInfo findByEmail(String email) {
+        return userInfoRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(linkTo(UserInfoRestController.class).withSelfRel()));
     }
 
-    public void login() throws Exception{
-        UserInfoDto userInfoDto = UserInfoDto.builder().email("test@naver.com").name("이름").build();
+    public void login() {
 
-        throw new CustomException(new ErrorResponse("테스트 메시지", userInfoDto, "join"));
+        Link link = linkTo(UserInfoRestController.class).slash("join").withSelfRel();
+        throw new BadRequestException(link);
+        //throw new NotFoundException(link);
     }
 }
