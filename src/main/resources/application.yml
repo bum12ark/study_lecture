@@ -17,6 +17,13 @@ spring:
       hibernate:
         format_sql: true
 
+  devtools:
+    restart:
+      enabled: true
+    thymeleaf:
+      cache: false
+      prefix: file:src/main/ersources/templates
+
 logging:
   level:
     org.hibernate.SQL: debug
