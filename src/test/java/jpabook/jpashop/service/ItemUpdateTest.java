@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.service;
+package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.item.Book;
 import org.junit.jupiter.api.Test;

@@ -1,22 +1,18 @@
-package jpabook.jpashop.domain.service;
+package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Delivery;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.item.Item;
-import jpabook.jpashop.domain.repository.ItemRepository;
-import jpabook.jpashop.domain.repository.MemberRepository;
-import jpabook.jpashop.domain.repository.OrderRepository;
-import jpabook.jpashop.domain.repository.OrderSearch;
+import jpabook.jpashop.repository.ItemRepository;
+import jpabook.jpashop.repository.MemberRepository;
+import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
