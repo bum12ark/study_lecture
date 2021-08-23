@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+
+<body>
+<div th:replace="/fragments/navbar.html :: fragment-nav"></div>
+
+<div class="container px-4 py-5">
+  <div class="py-2 text-center">
+    <h2>Create your account</h2>
+  </div>
+  <div class="row align-items-center py-5">
+    <div class="col-md-10 mx-auto">
+      <form class="needs-validation" id="join-form">
+        <div class="input-group form-floating mb-3">
+          <input type="email" class="form-control" id="join-email" placeholder="Email" required>
+          <label for="join-email">Email address</label>
+          <button class="btn btn-outline-secondary" type="button" id="check-email">중복확인</button>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="join-name" placeholder="Name" required>
+          <label for="join-name">Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="join-password" placeholder="Password" required>
+          <label for="join-password">Password</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary"
+                id="join" disabled>회원가입
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="module" th:src="@{/js/apps.js}"></script>
+</body>
+</html>
