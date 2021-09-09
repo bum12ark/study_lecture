@@ -1,16 +1,22 @@
 package hello.core.member;
 
+import hello.core.AppConfig;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.context.annotation.Description;
 
 public class MemberServiceTest {
 
-    // 의존관계가 인터페이스 뿐만 아니라 구현까지 모두 의존하는 문제점이 있음
-    MemberService memberService = new MemberServiceImpl();
+    MemberService memberService;
 
-    @Description("회원 가입 테스트")
+    @BeforeEach
+    public void beforeEach() {
+        AppConfig appConfig = new AppConfig();
+        memberService = appConfig.getMemberService();
+    }
+
     @Test
+    @Description("회원 가입 테스트")
     public void join() {
         // given
         Member member = new Member(1L, "memberA", Grade.VIP);
