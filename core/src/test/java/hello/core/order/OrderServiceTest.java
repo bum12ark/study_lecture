@@ -7,17 +7,20 @@ import hello.core.member.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderServiceTest {
+
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
     MemberService memberService;
     OrderService orderService;
 
     @BeforeEach
     public void beforeEach() {
-        AppConfig appConfig = new AppConfig();
-        memberService = appConfig.getMemberService();
-        orderService = appConfig.getOrderService();
+        memberService = applicationContext.getBean("getMemberService", MemberService.class);
+        orderService = applicationContext.getBean("getOrderService", OrderService.class);
     }
 
 

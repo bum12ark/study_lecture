@@ -3,16 +3,20 @@ package hello.core.member;
 import hello.core.AppConfig;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Description;
 
 public class MemberServiceTest {
 
     MemberService memberService;
 
+    // AppConfig 클래스의 Bean 정보들을 스프링 컨테이너에 관리한다.
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+
     @BeforeEach
     public void beforeEach() {
-        AppConfig appConfig = new AppConfig();
-        memberService = appConfig.getMemberService();
+        memberService = applicationContext.getBean("getMemberService", MemberService.class);
     }
 
     @Test
