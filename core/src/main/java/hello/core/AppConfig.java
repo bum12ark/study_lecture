@@ -9,22 +9,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-    @Bean
+    @Bean(name = "memberService")
     public MemberService getMemberService() {
         return new MemberServiceImpl(getMemberRepository());
     }
 
-    @Bean
+    @Bean(name = "orderService")
     public OrderService getOrderService() {
         return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
     }
 
-    @Bean
+    @Bean(name = "memoryMemberRepository")
     public MemoryMemberRepository getMemberRepository() {
         return new MemoryMemberRepository();
     }
 
-    @Bean
+    @Bean(name = "discountPolicy")
     public DiscountPolicy getDiscountPolicy() {
         return new RateDiscountPolicy();
     }
