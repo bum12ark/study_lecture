@@ -16,7 +16,7 @@ public class MemberServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        memberService = applicationContext.getBean("getMemberService", MemberService.class);
+        memberService = applicationContext.getBean("memberService", MemberService.class);
     }
 
     @Test

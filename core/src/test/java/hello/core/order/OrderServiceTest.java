@@ -19,8 +19,8 @@ public class OrderServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        memberService = applicationContext.getBean("getMemberService", MemberService.class);
-        orderService = applicationContext.getBean("getOrderService", OrderService.class);
+        memberService = applicationContext.getBean("memberService", MemberService.class);
+        orderService = applicationContext.getBean("orderService", OrderService.class);
     }
 
 
