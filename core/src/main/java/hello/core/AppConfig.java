@@ -11,16 +11,19 @@ public class AppConfig {
 
     @Bean(name = "memberService")
     public MemberService getMemberService() {
+        System.out.println("call AppConfig.getMemberService");
         return new MemberServiceImpl(getMemberRepository());
     }
 
     @Bean(name = "orderService")
     public OrderService getOrderService() {
+        System.out.println("call AppConfig.getOrderService");
         return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
     }
 
     @Bean(name = "memoryMemberRepository")
-    public MemoryMemberRepository getMemberRepository() {
+    public MemberRepository getMemberRepository() {
+        System.out.println("call AppConfig.getMemberRepository");
         return new MemoryMemberRepository();
     }
 
