@@ -21,7 +21,7 @@ public class AppConfig {
         return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
     }
 
-    @Bean(name = "memoryMemberRepository")
+    @Bean(name = "memberRepository")
     public MemberRepository getMemberRepository() {
         System.out.println("call AppConfig.getMemberRepository");
         return new MemoryMemberRepository();
