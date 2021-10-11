@@ -28,9 +28,9 @@ public class DetachTest {
 
         try {
             Member member = entityManager.find(Member.class, 200L);
-            member.setName("modifiedMember");
+            member.setUserName("modifiedMember");
 
-            entityManager.detach(member); // 방법 1
+            // entityManager.detach(member); // 방법 1
             entityManager.clear(); // 방법 2
 
             System.out.println("======= after detach =======");

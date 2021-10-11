@@ -30,7 +30,7 @@ public class PersistenceContextBasicTest {
             // 비영속
             Member member = new Member();
             member.setId(100L);
-            member.setName("HelloJPA");
+            member.setUserName("HelloJPA");
 
             // 영속
             System.out.println("=== BEGIN ===");
@@ -90,6 +90,7 @@ public class PersistenceContextBasicTest {
             // 커밋하는 순간 데이터 베이스에 INSERT SQL을 보낸다.
             transaction.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             transaction.rollback();
         } finally {
             entityManager.close();
@@ -108,7 +109,7 @@ public class PersistenceContextBasicTest {
             Member memberA = entityManager.find(Member.class, 1L);
 
             // 영속 엔티티 데이터 수정
-            memberA.setName("modifyMember");
+            memberA.setUserName("modifyMember");
 
             /** 이런 코드가 있어야 하지 않을까? **/
             // entityManager.persist(memberA);
