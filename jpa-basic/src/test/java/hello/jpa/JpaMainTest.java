@@ -44,7 +44,7 @@ class JpaMainTest {
         try {
             Member member = new Member();
             member.setId(9999L);
-            member.setName("Hello JPA");
+            member.setUserName("Hello JPA");
 
             entityManager.persist(member);
 
