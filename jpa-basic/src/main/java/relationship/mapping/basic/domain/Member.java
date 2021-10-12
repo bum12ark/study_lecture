@@ -21,6 +21,12 @@ public class Member {
     // @Column(name = "TEAM_ID")
     private Long teamId;
 
+    // == 연관관계 편의 메소드 == //
+    public void changeTeam(Team team) {
+        this.team = team;
+        this.team.getMembers().add(this);
+    }
+
     public Long getId() {
         return id;
     }
@@ -41,7 +47,12 @@ public class Member {
         return team;
     }
 
+
     public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void setTeamBefore(Team team) {
         this.team = team;
     }
 
