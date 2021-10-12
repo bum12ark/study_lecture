@@ -1,9 +1,6 @@
 package relationship.mapping.basic.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Member {
@@ -15,7 +12,13 @@ public class Member {
     @Column(name = "USERNAME")
     private String name;
 
-    @Column(name = "TEAM_ID")
+    // Member (m) : Team (1)
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
+    @Transient
+    // @Column(name = "TEAM_ID")
     private Long teamId;
 
     public Long getId() {
@@ -32,6 +35,14 @@ public class Member {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public Long getTeamId() {
