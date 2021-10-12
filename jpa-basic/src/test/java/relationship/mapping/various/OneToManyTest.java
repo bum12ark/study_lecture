@@ -48,6 +48,35 @@ public class OneToManyTest {
         }
     }
 
+    @Test
+    @DisplayName("@OneToMany 일대다 양방향")
+    void oneToManyTwoWayTest() {
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        try {
+            // 회원 저장
+            Member member = new Member();
+            member.setName("member1");
+            entityManager.persist(member);
+
+            // 팀 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            // UPDATE 쿼리가 추가적으로 발생한다. (성능 단점)
+            team.getMembers().add(member);
+            entityManager.persist(team);
+
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+        } finally {
+            entityManager.close();
+        }
+    }
+
     @AfterAll
     void afterAll() { emf.close(); }
 }
