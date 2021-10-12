@@ -10,7 +10,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ManyToOneTest {
+public class OneWayTest {
 
     EntityManagerFactory emf;
 

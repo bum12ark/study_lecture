@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class OneToManyTest {
+public class TwoWayTest {
 
     EntityManagerFactory emf;
 
@@ -23,7 +23,7 @@ public class OneToManyTest {
 
     @Test
     @DisplayName("양방향 연관관계 조회 테스트")
-    void oneToManySearchTest() {
+    void twoWaySearchTest() {
         EntityManager entityManager = emf.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
