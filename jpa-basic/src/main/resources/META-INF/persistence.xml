@@ -64,6 +64,8 @@
     <persistence-unit name="mapping_various">
         <class>relationship.mapping.various.domain.Member</class>
         <class>relationship.mapping.various.domain.Team</class>
+        <class>relationship.mapping.various.domain.Locker</class>
+        <class>relationship.mapping.various.domain.Product</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>

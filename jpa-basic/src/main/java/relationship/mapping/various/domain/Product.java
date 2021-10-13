@@ -1,30 +1,22 @@
 package relationship.mapping.various.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Member {
+public class Product {
 
     @Id @GeneratedValue
-    @Column(name = "MEMBER_ID")
     private Long id;
-
-    @Column(name = "USERNAME")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
-    private Team team;
-
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
-
-    @ManyToMany
-    @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product> products = new ArrayList<>();
+    // 양방향 관계 설정 시
+    @ManyToMany(mappedBy = "products")
+    private List<Member> members = new ArrayList<>();
 
     public Long getId() {
         return id;
