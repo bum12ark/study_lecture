@@ -5,22 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn
+public class Item extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "ITEM_ID")
     private Long id;
-
     private String name;
-
     private Integer price;
-
     @Column(name = "STOCK_QUANTITY")
     private Integer stockQuantity;
-
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
+    // getter & setter
     public Long getId() {
         return id;
     }
