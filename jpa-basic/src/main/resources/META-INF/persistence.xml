@@ -26,6 +26,8 @@
         <class>jpabook.domain.Member</class>
         <class>jpabook.domain.Order</class>
         <class>jpabook.domain.OrderItem</class>
+        <class>jpabook.domain.Delivery</class>
+        <class>jpabook.domain.Category</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
