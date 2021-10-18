@@ -107,4 +107,26 @@
             <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
     </persistence-unit>
+
+    <persistence-unit name="mapping_proxy">
+        <class>relationship.mapping.proxy.domain.Member</class>
+        <class>relationship.mapping.proxy.domain.Team</class>
+        <class>relationship.mapping.proxy.domain.EagerMember</class>
+        <class>relationship.mapping.proxy.domain.Parent</class>
+        <class>relationship.mapping.proxy.domain.Child</class>
+        <properties>
+            <!-- 필수 속성 -->
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/mapping_proxy"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+            <!-- 옵션 -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+        </properties>
+    </persistence-unit>
 </persistence>
