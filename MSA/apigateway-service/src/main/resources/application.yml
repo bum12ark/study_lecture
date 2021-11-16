@@ -1,12 +1,12 @@
 server:
-  port: 8000
+  port: 8761
 
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://127.0.0.1:8786/eureka
+      defaultZone: http://127.0.0.1:8761/eureka
 spring:
   application:
     name: apigateway-service
