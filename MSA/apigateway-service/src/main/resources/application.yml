@@ -3,10 +3,10 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    fetch-registry: true
+    register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://127.0.0.1:8786/eureka
 spring:
   application:
     name: apigateway-service
@@ -20,7 +20,7 @@ spring:
             postLogger: true
       routes:
         - id: first-service
-          uri: http://localhost:8081
+          uri: lb://MY-FIRST-SERVICE
           predicates:
             - Path=/first-service/**
           filters:
@@ -28,7 +28,7 @@ spring:
 #            - AddResponseHeader=first-response, first-response-header
             - CustomFilter
         - id: second-service
-          uri: http://localhost:8082
+          uri: lb://MY-SECOND-SERVICE
           predicates:
             - Path=/second-service/**
           filters:

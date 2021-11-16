@@ -3,9 +3,11 @@ server:
 
 spring:
   application:
-    name: my-seconde-service
+    name: my-second-service
 
 eureka:
   client:
-    fetch-registry: false
-    register-with-eureka: false
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8786/eureka
