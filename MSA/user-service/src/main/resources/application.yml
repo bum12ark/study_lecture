@@ -10,6 +10,9 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8786/eureka
+      defaultZone: http://127.0.0.1:8761/eureka
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+greeting:
+  message: Welcome to the Simple E-commerce.
