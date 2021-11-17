@@ -15,9 +15,10 @@ import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -52,7 +53,7 @@ class UserControllerTest {
 
         // When & Then
         mockMvc.perform(
-                post("/users")
+                post("/user-service/users")
                         .content(requestJson)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -74,12 +75,37 @@ class UserControllerTest {
 
         // When & Then
         mockMvc.perform(
-                post("/users")
+                post("/user-service/users")
                         .content(requestJson)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("모든 유저 조회")
+    void getUsers() throws Exception {
+        // Given
+        // When & Then
+        mockMvc.perform(get("/user-service/users"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("특정 유저 조회")
+    void getUser() throws Exception {
+        // Given
+        String userId = "testId";
+
+        given(userService.getUserByUserId(userId)).willReturn(User.builder().userId("testId").build());
+
+        // When & Then
+        mockMvc.perform(get("/user-service/users/" + userId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("userId").value("testId"))
                 .andDo(print());
     }
 }

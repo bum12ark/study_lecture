@@ -7,4 +7,6 @@ public interface UserService {
 
     User createUser(RequestUser requestUser);
 
+    User getUserByUserId(String userId);
+    Iterable<User> getUserByAll();
 }

@@ -2,11 +2,10 @@ package com.example.userservice.controller;
 
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
-import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import com.example.userservice.vo.ResponseUser;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -14,11 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service")
 @Slf4j @RequiredArgsConstructor
 public class UserController {
 
@@ -34,23 +34,34 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        return "It's Working in User Service";
+        return String.format("It's Working in User Service on PORT %s",
+                environment.getProperty("local.server.port"));
     }
 
     @PostMapping("/users")
     public ResponseEntity createUser(@RequestBody @Valid RequestUser requestUser) {
-        log.info("UserController.createUser");
-
         User user = userService.createUser(requestUser);
         ResponseUser responseUser = new ResponseUser(user.getEmail(), user.getName(), user.getUserId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
-    @AllArgsConstructor @Data
-    public static class ResponseUser {
-        private String email;
-        private String name;
-        private String userId;
+    @GetMapping("/users")
+    public ResponseEntity getUsers() {
+        Iterable<User> findUsers = userService.getUserByAll();
+
+        List<ResponseUser> results = new ArrayList<>();
+        findUsers.forEach(user -> results.add(new ResponseUser(user.getEmail(), user.getName(), user.getUserId(), new ArrayList<>())));
+
+        return ResponseEntity.status(HttpStatus.OK).body(results);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getUser(@PathVariable("userId") String userId) {
+
+        User findUser = userService.getUserByUserId(userId);
+        ResponseUser responseUser = new ResponseUser(findUser.getEmail(), findUser.getName(), findUser.getUserId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseUser);
     }
 }
