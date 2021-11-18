@@ -2,8 +2,9 @@ package com.example.userservice.service;
 
 import com.example.userservice.entity.User;
 import com.example.userservice.vo.RequestUser;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     User createUser(RequestUser requestUser);
 
