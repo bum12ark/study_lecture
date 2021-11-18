@@ -3,6 +3,7 @@ package com.example.catalogservice.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,5 +26,6 @@ public class Catalog implements Serializable {
     private Integer unitPrice;
 
     @Column(nullable = false, updatable = false, insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 }
