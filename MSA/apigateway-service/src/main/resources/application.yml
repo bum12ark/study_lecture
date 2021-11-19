@@ -43,6 +43,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*),/$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
@@ -58,19 +59,18 @@ spring:
           predicates:
             - Path=/first-service/**
           filters:
-#            - AddRequestHeader=first-request, first-request-header
-#            - AddResponseHeader=first-response, first-response-header
             - CustomFilter
         - id: second-service
           uri: lb://MY-SECOND-SERVICE
           predicates:
             - Path=/second-service/**
           filters:
-#            - AddRequestHeader=second-request, second-request-header
-#            - AddResponseHeader=second-response, second-response-header
             - name: CustomFilter
             - name: LoggingFilter
               args:
                 baseMessage: Spring Cloud Gateway Global Filter
                 preLogger: true
                 postLogger: true
+
+token:
+  secret: user_token

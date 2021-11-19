@@ -17,12 +17,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final Environment environment;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        String localIpAddress = "10.10.255.119";
+        String localIpAddress = "192.168.0.124";
         http.authorizeRequests().antMatchers("/**")
                         .hasIpAddress(localIpAddress)
                         .and()
@@ -33,7 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment);
         authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;
