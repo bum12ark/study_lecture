@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.RequestUser;
@@ -55,5 +56,11 @@ public class UserServiceImpl implements UserService {
                 true, true, true, true,
                 new ArrayList<>()
         );
+    }
+
+    @Override
+    public UserDto getUserDetailsByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(NullPointerException::new);
+        return new UserDto(user.getEmail(), user.getName(), user.getUserId(), user.getEncryptedPwd());
     }
 }

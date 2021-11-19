@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    private final Environment environment;
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -23,7 +22,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        String localIpAddress = "192.168.0.124";
+        String localIpAddress = "10.10.255.119";
         http.authorizeRequests().antMatchers("/**")
                         .hasIpAddress(localIpAddress)
                         .and()
@@ -34,7 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService);
         authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;
@@ -42,6 +41,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     // SELECT pwd FROM users WHERE email = ?
     // db_pwd(encrypted) == input_pwd(encrypted)
+    // 패스워드를 비교할 때 사용할 인코딩 방식 설정
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // SELECT pwd FROM users WHERE email = ?
