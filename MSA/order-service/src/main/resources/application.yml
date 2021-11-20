@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: user-service
+    name: order-service
   h2:
     console:
       enabled: true
@@ -16,11 +16,9 @@ spring:
     username: sa
   jpa:
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
 
 eureka:
   client:
@@ -30,14 +28,3 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
-greeting:
-  message: Welcome to the Simple E-commerce.
-
-logging:
-  level:
-    com.example.userservice: debug
-
-token:
-  expiration_time: 8650000
-  secret: user_token
