@@ -21,6 +21,12 @@ spring:
       hibernate:
         format_sql: true
 
+  config:
+    import: optional:configserver:http://localhost:8888/
+  cloud:
+    config:
+      name: ecommerce
+      profile: default
 
 eureka:
   client:
@@ -38,6 +44,8 @@ logging:
   level:
     com.example.userservice: debug
 
-token:
-  expiration_time: 8650000
-  secret: user_token
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info
