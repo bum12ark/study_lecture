@@ -21,7 +21,6 @@ import java.util.List;
 @Slf4j @RequiredArgsConstructor
 public class UserController {
 
-//    private final Greeting greeting;
     private final Environment environment;
     private final UserService userService;
 
@@ -33,8 +32,15 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        return String.format("It's Working in User Service on PORT %s",
-                environment.getProperty("local.server.port"));
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("It's Working in User Service")
+                .append("<br/>, port(local.server.port) = ").append(environment.getProperty("local.server.port"))
+                .append("<br/>, port(server.port) = ").append(environment.getProperty("server.port"))
+                .append("<br/>, token secret = ").append(environment.getProperty("token.secret"))
+                .append("<br/>, token expiration_time = ").append(environment.getProperty("token.expiration_time"));
+
+        return sb.toString();
     }
 
     @PostMapping("/users")
