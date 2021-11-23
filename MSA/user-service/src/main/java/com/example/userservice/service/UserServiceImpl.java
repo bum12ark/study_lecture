@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.UserRepository;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final OrderServiceClient orderServiceClient;
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
@@ -48,13 +50,16 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByUserId(String userId) {
         User findUser = userRepository.findByUserId(userId).orElseThrow(NullPointerException::new);
 
-        /* Using as rest template */
+        /* Using as rest template
         String orderUrl = String.format(environment.getProperty("order-service.url.getorders"), userId);
         ResponseEntity<List<ResponseOrder>> responseEntity =
                 restTemplate.exchange(orderUrl, HttpMethod.GET,
                         null, new ParameterizedTypeReference<List<ResponseOrder>>() {});
-
         List<ResponseOrder> orders = responseEntity.getBody();
+        */
+
+        /* Using feign client */
+        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
 
         return new UserDto(findUser.getEmail(), findUser.getName(),
                 findUser.getUserId(), findUser.getEncryptedPwd(), orders);
