@@ -33,6 +33,7 @@ public class OrderController {
                                       @RequestBody RequestOrder requestOrder) {
 
         OrderDto orderDto = new OrderDto(requestOrder.getProductId(), requestOrder.getQty(), requestOrder.getUnitPrice());
+        orderDto.setUserId(userId);
 
         Order order = orderService.createOrder(orderDto);
 

@@ -6,13 +6,18 @@ import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseOrder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,7 +25,10 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RestTemplate restTemplate;
+    private final Environment environment;
 
     @Override
     public User createUser(RequestUser requestUser) {
@@ -37,8 +45,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUserId(String userId) {
-        return userRepository.findByUserId(userId).orElseThrow(NullPointerException::new);
+    public UserDto getUserByUserId(String userId) {
+        User findUser = userRepository.findByUserId(userId).orElseThrow(NullPointerException::new);
+
+        /* Using as rest template */
+        String orderUrl = String.format(environment.getProperty("order-service.url.getorders"), userId);
+        ResponseEntity<List<ResponseOrder>> responseEntity =
+                restTemplate.exchange(orderUrl, HttpMethod.GET,
+                        null, new ParameterizedTypeReference<List<ResponseOrder>>() {});
+
+        List<ResponseOrder> orders = responseEntity.getBody();
+
+        return new UserDto(findUser.getEmail(), findUser.getName(),
+                findUser.getUserId(), findUser.getEncryptedPwd(), orders);
     }
 
     @Override
