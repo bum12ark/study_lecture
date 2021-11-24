@@ -12,4 +12,7 @@ public interface OrderServiceClient {
 
     @GetMapping("/order-service/{userId}/orders")
     List<ResponseOrder> getOrders(@PathVariable(name = "userId") String userId);
+
+    @GetMapping("/order-service/{userId}/wrong-address")
+    List<ResponseOrder> getOrdersWrongAddress(@PathVariable(name = "userId") String userId);
 }

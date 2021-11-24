@@ -6,11 +6,10 @@ import com.example.userservice.entity.User;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseOrder;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +22,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -59,7 +59,10 @@ public class UserServiceImpl implements UserService {
         */
 
         /* Using feign client */
-        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+        // List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+
+        /* Using ErrorDecoder feign client */
+        List<ResponseOrder> orders = orderServiceClient.getOrdersWrongAddress(userId);
 
         return new UserDto(findUser.getEmail(), findUser.getName(),
                 findUser.getUserId(), findUser.getEncryptedPwd(), orders);
