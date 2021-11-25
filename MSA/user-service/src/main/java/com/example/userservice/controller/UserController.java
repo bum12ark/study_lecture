@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestUser;
@@ -56,7 +57,11 @@ public class UserController {
         Iterable<User> findUsers = userService.getUserByAll();
 
         List<ResponseUser> results = new ArrayList<>();
-        findUsers.forEach(user -> results.add(new ResponseUser(user.getEmail(), user.getName(), user.getUserId(), new ArrayList<>())));
+        findUsers.forEach(
+                user -> results.add(
+                        new ResponseUser(user.getEmail(), user.getName(), user.getUserId(), new ArrayList<>())
+                )
+        );
 
         return ResponseEntity.status(HttpStatus.OK).body(results);
     }
@@ -64,8 +69,9 @@ public class UserController {
     @GetMapping("/users/{userId}")
     public ResponseEntity getUser(@PathVariable("userId") String userId) {
 
-        User findUser = userService.getUserByUserId(userId);
-        ResponseUser responseUser = new ResponseUser(findUser.getEmail(), findUser.getName(), findUser.getUserId());
+        UserDto findUser = userService.getUserByUserId(userId);
+        ResponseUser responseUser =
+                new ResponseUser(findUser.getEmail(), findUser.getName(), findUser.getUserId(), findUser.getOrders());
 
         return ResponseEntity.status(HttpStatus.OK).body(responseUser);
     }

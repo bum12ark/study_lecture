@@ -10,10 +10,7 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:msa-user-service
-    username: sa
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -25,7 +22,7 @@ spring:
     import: optional:configserver:http://localhost:8888/
   cloud:
     config:
-      name: ecommerce
+      name: user-service
       profile: default
 
   rabbitmq:
@@ -48,7 +45,7 @@ greeting:
 
 logging:
   level:
-    com.example.userservice: debug
+    com.example.userservice: DEBUG
 
 management:
   endpoints:

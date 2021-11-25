@@ -9,7 +9,7 @@ public interface UserService extends UserDetailsService {
 
     User createUser(RequestUser requestUser);
 
-    User getUserByUserId(String userId);
+    UserDto getUserByUserId(String userId);
     Iterable<User> getUserByAll();
 
     UserDto getUserDetailsByEmail(String username);

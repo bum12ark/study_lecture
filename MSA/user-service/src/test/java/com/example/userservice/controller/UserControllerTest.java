@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestUser;
@@ -18,7 +19,8 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -100,7 +102,8 @@ class UserControllerTest {
         // Given
         String userId = "testId";
 
-        given(userService.getUserByUserId(userId)).willReturn(User.builder().userId("testId").build());
+        UserDto willReturnUser = new UserDto("email", "name", "testId", "encryptedPwd");
+        given(userService.getUserByUserId(userId)).willReturn(willReturnUser);
 
         // When & Then
         mockMvc.perform(get("/user-service/users/" + userId))
