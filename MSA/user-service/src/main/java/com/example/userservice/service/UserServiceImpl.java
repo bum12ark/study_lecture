@@ -58,11 +58,13 @@ public class UserServiceImpl implements UserService {
         List<ResponseOrder> orders = responseEntity.getBody();
         */
 
-        /* Using feign client */
-        // List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
 
-        /* Using ErrorDecoder feign client */
+        /* Using ErrorDecoder feign client
         List<ResponseOrder> orders = orderServiceClient.getOrdersWrongAddress(userId);
+         */
+
+        /* Using feign client */
+        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
 
         return new UserDto(findUser.getEmail(), findUser.getName(),
                 findUser.getUserId(), findUser.getEncryptedPwd(), orders);
